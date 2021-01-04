@@ -135,6 +135,7 @@ class SnakeGame(tk.Toplevel):
 
         tk.Toplevel.__init__(self, *args, **kwargs)
         self.geometry("{}x{}".format(kwargs["width"], kwargs["height"]))
+        self.title("Python Snake Game")
         self.snake_canvas: SnakeCanvas = SnakeCanvas(
             self, width=kwargs["width"] - 100, height=kwargs["height"], bg="CadetBlue1",
         )
