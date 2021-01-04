@@ -150,15 +150,22 @@ class SnakeGame(tk.Toplevel):
         self.score_label.pack()
         self.increment_score()
         self.init_snake()
+        self.set_bindings()
+
+        self.direction: str = "UP"
+
+        self.update_elements()
+
+    def set_bindings(self) -> None:
+        """
+        Setting the key bindings for the Snake moving.
+        :return: None
+        """
 
         self.bind("<Left>", lambda x: self.update_direction("LEFT"))
         self.bind("<Right>", lambda x: self.update_direction("RIGHT"))
         self.bind("<Up>", lambda x: self.update_direction("UP"))
         self.bind("<Down>", lambda x: self.update_direction("DOWN"))
-
-        self.direction: str = "UP"
-
-        self.update_elements()
 
     def increment_score(self) -> None:
         """
