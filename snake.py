@@ -286,19 +286,18 @@ class SnakeCanvas(tk.Canvas):
         self.delete("all")
         head: bool = True
         for elem in reversed(SnakeDataContainer.elements):
+            element_color: str = "green"
             if head:
                 if self.check_if_wall(elem):
                     return True
                 if self.check_if_bite(elem):
                     return True
-            if head:
-                self.create_oval(
-                    elem["X"] - 5, elem["Y"] - 5, elem["X"] + 5, elem["Y"] + 5, fill="red"
-                )
-            else:
-                self.create_oval(
-                    elem["X"] - 5, elem["Y"] - 5, elem["X"] + 5, elem["Y"] + 5, fill="green"
-                )
+                element_color = "red"
+
+            self.create_oval(
+                elem["X"] - 5, elem["Y"] - 5, elem["X"] + 5, elem["Y"] + 5, fill=element_color
+            )
+
             if not self.feed:
                 self.add_new_feed()
                 self.feed = True
