@@ -99,6 +99,8 @@ class SnakeConfig(tk.Tk):
 
         tk.Tk.__init__(self, *args, **kwargs)
         self.geometry("200x200")
+        self.speed_variable = tk.StringVar(self)
+        self.speed_variable.set("Medium")  # default value
         self.create_elements()
 
     def create_elements(self) -> None:
@@ -107,17 +109,18 @@ class SnakeConfig(tk.Tk):
         :return: None
         """
 
-        start_button: tk.Button = tk.Button(self, text="START", command=self.start_game)
-        start_button.pack()
+        tk.Label(self, text="Speed").pack()
+        tk.OptionMenu(self, self.speed_variable, "Slow", "Medium", "Fast").pack()
+        tk.Button(self, text="START", command=self.start_game).pack()
+        tk.Button(self, text="EXIT", command=self.destroy).pack()
 
-    @staticmethod
-    def start_game() -> None:
+    def start_game(self) -> None:
         """
         Start the Snake game in a top-level window.
         :return: None
         """
 
-        SnakeGame(width=400, height=300)
+        SnakeGame(width=400, height=300, speed=self.speed_variable.get())
 
 
 class SnakeGame(tk.Toplevel):
@@ -126,6 +129,8 @@ class SnakeGame(tk.Toplevel):
     The moving/timing/init are handled in this class.
     """
 
+    AFTER_TIMES: Dict[str, int] = {"Fast": 100, "Medium": 150, "Slow": 250}
+
     def __init__(self, *args, **kwargs) -> None:
         """
         Init method of 'SnakeConfig' class.
@@ -133,6 +138,7 @@ class SnakeGame(tk.Toplevel):
         :param kwargs: Key-word arguments.
         """
 
+        self.snake_speed = kwargs.pop("speed")
         tk.Toplevel.__init__(self, *args, **kwargs)
         self.geometry("{}x{}".format(kwargs["width"], kwargs["height"]))
         self.title("Python Snake Game")
@@ -216,7 +222,7 @@ class SnakeGame(tk.Toplevel):
             self.update_config_with_moving(elem)
 
         self.move()
-        self.after(150, self.update_elements)
+        self.after(SnakeGame.AFTER_TIMES[self.snake_speed], self.update_elements)
 
     def init_snake(self) -> None:
         """

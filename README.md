@@ -9,3 +9,7 @@
 ### Game preview:
 
 ![Preview Pic](imgs/preview.png "Preview")
+
+### Tested:
+- Linux Mint 19.1
+- Python 3.6.9
